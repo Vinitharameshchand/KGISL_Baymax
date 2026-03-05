@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Baymax – AI Medication Companion</title>
+    <meta name="description"
+        content="Baymax is your intelligent AI medication companion. Voice reminders, caregiver alerts, and smart tracking — all in one app." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════ NAVBAR ═══════════════════════════ -->
+    <nav class="nav" id="navbar">
+        <div class="nav-inner">
+            <a href="#hero" class="nav-brand">
+                <img src="logo.png" alt="Neuvix Logo" class="nav-logo-img" />
+            </a>
+            <ul class="nav-links">
+                <li><a href="#problem">Problem</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#workflow">How It Works</a></li>
+                <li><a href="#tech">Tech Stack</a></li>
+                <li><a href="#cta" class="nav-btn">View Prototype</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+        <div class="nav-mobile" id="navMobile">
+            <a href="#problem">Problem</a>
+            <a href="#features">Features</a>
+            <a href="#workflow">How It Works</a>
+            <a href="#tech">Tech Stack</a>
+            <a href="#cta">View Prototype</a>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+    <section class="hero" id="hero">
+        <div class="hero-blobs">
+            <div class="blob b1"></div>
+            <div class="blob b2"></div>
+            <div class="blob b3"></div>
+        </div>
+        <div class="container hero-grid">
+            <!-- Left -->
+            <div class="hero-content">
+                <div class="pill">🏥 AI-Powered Healthcare Companion</div>
+                <h1 class="hero-title">
+                    Baymax –<br>
+                    <span class="grad">AI Medication</span><br>
+                    Companion
+                </h1>
+                <p class="hero-tag">Your intelligent companion that ensures you <strong>never miss a
+                        medication.</strong></p>
+                <p class="hero-desc">Baymax uses voice interaction, smart reminders, and real-time caregiver alerts to
+                    dramatically improve medication adherence — especially for elderly patients living alone.</p>
+                <div class="hero-btns">
+                    <a href="#cta" class="btn btn-blue">View Prototype →</a>
+                    <a href="#workflow" class="btn btn-ghost">How It Works</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-n">50%</span>
+                        <span class="stat-l">of patients miss doses</span>
+                    </div>
+                    <div class="stat-div"></div>
+                    <div class="stat-item">
+                        <span class="stat-n">3×</span>
+                        <span class="stat-l">better adherence with reminders</span>
+                    </div>
+                    <div class="stat-div"></div>
+                    <div class="stat-item">
+                        <span class="stat-n">24/7</span>
+                        <span class="stat-l">caregiver monitoring</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Right -->
+            <div class="hero-visual">
+                <div class="hero-img-wrap">
+                    <img src="baymax_hero.png" alt="Baymax AI Robot" class="hero-img" />
+                    <div class="fc fc-top">
+                        <span class="fc-ico">💊</span>
+                        <div>
+                            <div class="fc-t">Medication Reminder</div>
+                            <div class="fc-s">Aspirin – 8:00 AM</div>
+                        </div>
+                        <span class="badge badge-green">On Time</span>
+                    </div>
+                    <div class="fc fc-mid">
+                        <span class="fc-ico">🔔</span>
+                        <div>
+                            <div class="fc-t">Caregiver Alert</div>
+                            <div class="fc-s">Dose missed – 2:00 PM</div>
+                        </div>
+                        <span class="badge badge-red">Alert Sent</span>
+                    </div>
+                    <div class="fc fc-bot">
+                        <span class="fc-ico">✅</span>
+                        <div>
+                            <div class="fc-t">7-Day Streak</div>
+                            <div class="fc-s">All doses taken!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="wave-wrap">
+            <svg viewBox="0 0 1440 70" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,35 C400,70 1040,0 1440,35 L1440,70 L0,70 Z" fill="#f8fafc" />
+            </svg>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════ PROBLEM ═══════════════════════════ -->
+    <section class="section bg-grey" id="problem">
+        <div class="container">
+            <div class="sec-head">
+                <span class="tag">The Problem</span>
+                <h2>Medication Non-Adherence is a <span class="grad">Silent Crisis</span></h2>
+                <p>Millions of patients — especially elderly individuals — struggle to consistently take their
+                    medications, leading to serious health consequences.</p>
+            </div>
+            <div class="grid-3">
+                <div class="card prob-card">
+                    <div class="ico-box" style="background:rgba(235,87,87,0.1);color:#EB5757">⚠️</div>
+                    <h3>Patients Forget Doses</h3>
+                    <p>Nearly <strong>50% of chronic disease patients</strong> fail to take medications as prescribed,
+                        with forgetfulness being the #1 reason.</p>
+                </div>
+                <div class="card prob-card">
+                    <div class="ico-box" style="background:rgba(242,153,74,0.1);color:#F2994A">👴</div>
+                    <h3>Elderly Living Alone</h3>
+                    <p>Senior patients without daily caregiver presence are most vulnerable to dangerous
+                        missed-medication patterns.</p>
+                </div>
+                <div class="card prob-card">
+                    <div class="ico-box" style="background:rgba(235,87,87,0.1);color:#EB5757">🏥</div>
+                    <h3>Worsening Health</h3>
+                    <p>Non-adherence leads to disease progression, preventable hospitalizations, and significantly
+                        poorer health outcomes.</p>
+                </div>
+                <div class="card prob-card">
+                    <div class="ico-box" style="background:rgba(74,144,226,0.1);color:#4A90E2">👨‍👩‍👧</div>
+                    <h3>No Family Visibility</h3>
+                    <p>Caregivers and family members have <strong>no real-time way</strong> to know if a loved one has
+                        taken their medications.</p>
+                </div>
+                <div class="card prob-card">
+                    <div class="ico-box" style="background:rgba(111,207,151,0.1);color:#27AE60">💸</div>
+                    <h3>Increased Healthcare Costs</h3>
+                    <p>Medication non-adherence costs the healthcare system over <strong>$300 billion annually</strong>
+                        in the U.S. alone.</p>
+                </div>
+                <div class="card prob-card">
+                    <div class="ico-box" style="background:rgba(242,153,74,0.1);color:#F2994A">🔇</div>
+                    <h3>Lack of Accessible Tools</h3>
+                    <p>Most reminder apps require complex setup and are not designed for elderly users who prefer
+                        voice-based interaction.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════ SOLUTION ═══════════════════════════ -->
+    <section class="section bg-white" id="solution">
+        <div class="container sol-grid">
+            <div class="sol-text">
+                <span class="tag">Our Solution</span>
+                <h2>Meet <span class="grad">Baymax</span> — Your Voice-Enabled Medication Guardian</h2>
+                <p>Baymax is a smart, voice-enabled healthcare companion designed to help patients take medication on
+                    time while giving caregivers real-time visibility into adherence.</p>
+                <ul class="sol-list">
+                    <li>
+                        <span class="sol-ico">🎙️</span>
+                        <div><strong>Voice-First Design</strong> — Friendly audio reminders and voice confirmation
+                            require no typing.</div>
+                    </li>
+                    <li>
+                        <span class="sol-ico">📊</span>
+                        <div><strong>Smart Tracking</strong> — Every dose is logged automatically with timestamps and
+                            status.</div>
+                    </li>
+                    <li>
+                        <span class="sol-ico">📲</span>
+                        <div><strong>Instant Alerts</strong> — Family members are notified immediately when a dose is
+                            missed.</div>
+                    </li>
+                    <li>
+                        <span class="sol-ico">🔄</span>
+                        <div><strong>All-in-One Platform</strong> — Reminders, confirmation, tracking, and alerts in a
+                            single app.</div>
+                    </li>
+                </ul>
+            </div>
+            <div class="sol-phone">
+                <div class="phone-wrap">
+                    <div class="phone-screen">
+                        <div class="ph-status">9:41 AM</div>
+                        <div class="ph-header">
+                            <span>🤖 Baymax</span>
+                            <span class="ph-online">● Online</span>
+                        </div>
+                        <div class="ph-reminder">
+                            <div class="ph-rem-top"><span>💊 Aspirin 100mg</span><span>8:00 AM</span></div>
+                            <p>"Hi! It's time to take your Aspirin. Have you taken it?"</p>
+                            <div class="ph-rem-btns">
+                                <button class="ph-yes">✓ Yes, taken!</button>
+                                <button class="ph-no">✗ Not yet</button>
+                            </div>
+                        </div>
+                        <div class="ph-streak">
+                            <span>🔥 Streak</span>
+                            <div class="days">
+                                <span class="day done">M</span><span class="day done">T</span><span
+                                    class="day done">W</span>
+                                <span class="day done">T</span><span class="day done">F</span><span
+                                    class="day today">S</span><span class="day">S</span>
+                            </div>
+                        </div>
+                        <div class="ph-adh">
+                            <span>📈 This Week</span>
+                            <div class="adh-track">
+                                <div class="adh-fill" id="adhFill"></div>
+                            </div>
+                            <span class="adh-num">85% Adherence</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════ FEATURES ═══════════════════════════ -->
+    <section class="section bg-grey" id="features">
+        <div class="container">
+            <div class="sec-head">
+                <span class="tag">Core Features</span>
+                <h2>Everything You Need for <span class="grad">Safe Medication Management</span></h2>
+                <p>Designed with patients and caregivers in mind — every feature is simple, reliable, and life-changing.
+                </p>
+            </div>
+            <div class="feat-grid">
+                <div class="card feat-card" id="feat-1">
+                    <div class="feat-ico">🔔</div>
+                    <h3>Voice-Based Tablet Reminders</h3>
+                    <p>Baymax delivers friendly, clear voice alerts at scheduled medication times. No navigation needed
+                        — just a warm spoken reminder the patient can hear and respond to naturally.</p>
+                    <span class="ftag">Voice-first</span>
+                </div>
+                <div class="card feat-card" id="feat-2">
+                    <div class="feat-ico">✅</div>
+                    <h3>Tablet Intake Confirmation</h3>
+                    <p>Patients confirm medication intake through voice commands or one-tap buttons — making it fully
+                        accessible for all ages.</p>
+                    <span class="ftag">Easy Confirm</span>
+                </div>
+                <div class="card feat-card" id="feat-3">
+                    <div class="feat-ico">🚨</div>
+                    <h3>Missed Medication Alerts</h3>
+                    <p>If a patient doesn't confirm within the window, Baymax instantly sends a push notification alert
+                        to designated family members.</p>
+                    <span class="ftag ftag-red">Critical Alert</span>
+                </div>
+                <div class="card feat-card" id="feat-4">
+                    <div class="feat-ico">📋</div>
+                    <h3>Medication Tracker</h3>
+                    <p>A full medication history log with adherence charts, streaks, and visual progress tracking helps
+                        patients and caregivers see trends over time.</p>
+                    <span class="ftag">Analytics</span>
+                </div>
+                <div class="card feat-card feat-wide" id="feat-5">
+                    <div class="feat-ico">👨‍👩‍👧</div>
+                    <h3>Caregiver Monitoring Dashboard</h3>
+                    <p>Family members get a dedicated view showing real-time medication status, adherence history, and
+                        instant missed-dose alerts — providing peace of mind from anywhere in the world. Stay connected
+                        to your loved one's health without being physically present.</p>
+                    <span class="ftag">Remote Care</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════ WORKFLOW ═══════════════════════════ -->
+    <section class="section bg-white" id="workflow">
+        <div class="container">
+            <div class="sec-head">
+                <span class="tag">How It Works</span>
+                <h2>Simple. <span class="grad">Smart.</span> Seamless.</h2>
+                <p>From setup to caregiver alerts — Baymax handles the entire medication lifecycle in 6 clear steps.</p>
+            </div>
+            <div class="timeline">
+                <div class="tl-item" id="wf-1">
+                    <div class="tl-dot">
+                        <span class="tl-n">01</span>
+                        <span class="tl-i">➕</span>
+                    </div>
+                    <div class="tl-body">
+                        <h4>Add Medication Reminder</h4>
+                        <p>The patient or caregiver adds the medication name, dosage, and daily schedule through the
+                            mobile app in seconds.</p>
+                    </div>
+                </div>
+                <div class="tl-item" id="wf-2">
+                    <div class="tl-dot">
+                        <span class="tl-n">02</span>
+                        <span class="tl-i">💾</span>
+                    </div>
+                    <div class="tl-body">
+                        <h4>Reminder Stored in System</h4>
+                        <p>The schedule is securely saved in Firebase Firestore and instantly synced across all linked
+                            patient and caregiver devices.</p>
+                    </div>
+                </div>
+                <div class="tl-item" id="wf-3">
+                    <div class="tl-dot">
+                        <span class="tl-n">03</span>
+                        <span class="tl-i">🎙️</span>
+                    </div>
+                    <div class="tl-body">
+                        <h4>Voice Reminder Triggers</h4>
+                        <p>At the scheduled time, Baymax speaks a friendly, clear reminder using Text-to-Speech — no
+                            action needed from the patient.</p>
+                    </div>
+                </div>
+                <div class="tl-item" id="wf-4">
+                    <div class="tl-dot">
+                        <span class="tl-n">04</span>
+                        <span class="tl-i">🤝</span>
+                    </div>
+                    <div class="tl-body">
+                        <h4>Patient Confirms Intake</h4>
+                        <p>The patient responds by voice command or a single button tap to confirm they have taken their
+                            medication.</p>
+                    </div>
+                </div>
+                <div class="tl-item" id="wf-5">
+                    <div class="tl-dot">
+                        <span class="tl-n">05</span>
+                        <span class="tl-i">📊</span>
+                    </div>
+                    <div class="tl-body">
+                        <h4>Status Recorded</h4>
+                        <p>The system logs the event — marked as <strong>Taken</strong> or <strong>Missed</strong> —
+                            with a precise timestamp for the adherence history.</p>
+                    </div>
+                </div>
+                <div class="tl-item tl-alert" id="wf-6">
+                    <div class="tl-dot tl-dot-red">
+                        <span class="tl-n" style="color:#EB5757">06</span>
+                        <span class="tl-i">📲</span>
+                    </div>
+                    <div class="tl-body tl-body-red">
+                        <h4>Family Alert Sent <span class="tl-badge">If Missed</span></h4>
+                        <p>If no confirmation is received, Firebase Cloud Messaging instantly sends a push notification
+                            to the designated family caregiver.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════ TECH STACK ═══════════════════════════ -->
+    <section class="section bg-grey" id="tech">
+        <div class="container">
+            <div class="sec-head">
+                <span class="tag">Technology Stack</span>
+                <h2>Built with <span class="grad">Modern, Reliable Tech</span></h2>
+                <p>A production-ready stack designed for scalability, reliability, and performance.</p>
+            </div>
+            <div class="tech-grid">
+                <div class="card tech-card" id="tc-1">
+                    <div class="tech-ico">📱</div>
+                    <div class="tech-lbl">Frontend</div>
+                    <div class="tech-name">React Native</div>
+                    <p>Cross-platform mobile app for iOS and Android with a consistent experience on all devices.</p>
+                </div>
+                <div class="card tech-card" id="tc-2">
+                    <div class="tech-ico">⚙️</div>
+                    <div class="tech-lbl">Backend</div>
+                    <div class="tech-name">Node.js</div>
+                    <p>Fast, scalable REST API server handling reminder scheduling, medication logic, and notification
+                        triggers.</p>
+                </div>
+                <div class="card tech-card" id="tc-3">
+                    <div class="tech-ico">🔥</div>
+                    <div class="tech-lbl">Database</div>
+                    <div class="tech-name">Firebase Firestore</div>
+                    <p>Real-time NoSQL database ensuring instant sync of medication data across patient and caregiver
+                        devices.</p>
+                </div>
+                <div class="card tech-card" id="tc-4">
+                    <div class="tech-ico">🎙️</div>
+                    <div class="tech-lbl">Voice Processing</div>
+                    <div class="tech-name">Speech APIs</div>
+                    <p>Speech-to-Text and Text-to-Speech APIs power Baymax's natural voice interaction capabilities.</p>
+                </div>
+                <div class="card tech-card" id="tc-5">
+                    <div class="tech-ico">🔔</div>
+                    <div class="tech-lbl">Notifications</div>
+                    <div class="tech-name">Firebase Cloud Messaging</div>
+                    <p>Reliable push notification delivery ensures caregivers never miss a critical missed-dose alert.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════ ARCHITECTURE ═══════════════════════════ -->
+    <section class="section bg-white" id="architecture">
+        <div class="container">
+            <div class="sec-head">
+                <span class="tag">System Architecture</span>
+                <h2>A <span class="grad">Robust, Scalable</span> Architecture</h2>
+                <p>Four interconnected layers working seamlessly to keep patients safe and caregivers informed.</p>
+            </div>
+            <div class="arch-list">
+                <div class="arch-item" id="arch-1">
+                    <div class="arch-ico">📱</div>
+                    <div class="arch-body">
+                        <h4>Mobile Application Layer</h4>
+                        <p>The React Native app is the primary interface for patients. It processes voice commands using
+                            Speech-to-Text, plays reminders via Text-to-Speech, and surfaces medication schedules and
+                            adherence data.</p>
+                    </div>
+                </div>
+                <div class="arch-conn">↕</div>
+                <div class="arch-item" id="arch-2">
+                    <div class="arch-ico">⚙️</div>
+                    <div class="arch-body">
+                        <h4>Backend API Layer</h4>
+                        <p>The Node.js server is the core logic engine — managing reminder schedules, processing
+                            confirmation events, evaluating missed-dose conditions, and orchestrating notification
+                            triggers.</p>
+                    </div>
+                </div>
+                <div class="arch-conn">↕</div>
+                <div class="arch-item" id="arch-3">
+                    <div class="arch-ico">🗄️</div>
+                    <div class="arch-body">
+                        <h4>Database Layer</h4>
+                        <p>Firebase Firestore persists all patient profiles, medication schedules, caregiver
+                            relationships, and adherence logs. Real-time listeners enable instant cross-device
+                            synchronization.</p>
+                    </div>
+                </div>
+                <div class="arch-conn">↕</div>
+                <div class="arch-item" id="arch-4">
+                    <div class="arch-ico">🔔</div>
+                    <div class="arch-body">
+                        <h4>Notification Layer</h4>
+                        <p>Firebase Cloud Messaging delivers time-critical missed-dose alerts to caregiver devices.
+                            Reminders are triggered at precise scheduled times, ensuring consistent patient engagement.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════ IMPACT ═══════════════════════════ -->
+    <section class="section bg-grey" id="impact">
+        <div class="container">
+            <div class="sec-head">
+                <span class="tag">Impact</span>
+                <h2>Real Benefits, <span class="grad">Real Lives Changed</span></h2>
+            </div>
+            <div class="grid-4">
+                <div class="card impact-card" id="imp-1">
+                    <div class="imp-ico">💊</div>
+                    <h3>Improves Medication Adherence</h3>
+                    <p>Voice reminders at the right time significantly increase the likelihood that patients take their
+                        medications as prescribed.</p>
+                </div>
+                <div class="card impact-card" id="imp-2">
+                    <div class="imp-ico">📉</div>
+                    <h3>Reduces Missed Medications</h3>
+                    <p>Automated tracking and intelligent follow-up ensures no dose falls through the cracks.</p>
+                </div>
+                <div class="card impact-card" id="imp-3">
+                    <div class="imp-ico">❤️</div>
+                    <h3>Peace of Mind for Families</h3>
+                    <p>Caregivers stay informed from anywhere in the world, reducing anxiety about a loved one's
+                        wellbeing.</p>
+                </div>
+                <div class="card impact-card" id="imp-4">
+                    <div class="imp-ico">👵</div>
+                    <h3>Empowers Elderly Patients</h3>
+                    <p>Voice-first, simple UI design makes Baymax fully accessible to older adults who may struggle with
+                        complex apps.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════ CTA ═══════════════════════════ -->
+    <section class="section cta-section" id="cta">
+        <div class="cta-glow"></div>
+        <div class="container cta-inner">
+            <span class="tag tag-light">Get Started</span>
+            <h2 class="cta-title">Ready to Transform Medication Adherence?</h2>
+            <p class="cta-sub">Explore the Baymax prototype and see how AI-powered voice reminders and caregiver alerts
+                can improve health outcomes.</p>
+            <div class="cta-btns">
+                <a href="#" class="btn btn-grad" id="cta-main">🚀 Explore the Prototype →</a>
+                <a href="#architecture" class="btn btn-ghost-white" id="cta-arch">📐 View System Architecture</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+    <footer class="footer" id="footer">
+        <div class="container footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo"><img src="logo.png" alt="Neuvix Logo" class="footer-logo-img" /></div>
+                <p class="footer-desc">Your intelligent AI medication companion that ensures patients never miss a dose.
+                    Built with voice, care, and compassion.</p>
+                <div class="footer-links-row">
+                    <a href="#" id="f-github">⭐ GitHub</a>
+                    <a href="#" id="f-docs">📄 Docs</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Product</h4>
+                <a href="#features">Features</a>
+                <a href="#workflow">How It Works</a>
+                <a href="#tech">Tech Stack</a>
+                <a href="#architecture">Architecture</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="#" id="f-proto">Prototype</a>
+                <a href="#" id="f-documentation">Documentation</a>
+                <a href="#" id="f-team">Team</a>
+                <a href="#" id="f-research">Research</a>
+            </div>
+            <div class="footer-col">
+                <h4>About</h4>
+                <a href="#problem">The Problem</a>
+                <a href="#solution">Our Solution</a>
+                <a href="#impact">Impact</a>
+                <a href="#cta">Get Started</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Baymax – AI Medication Companion. Built with ❤️ for better healthcare.</p>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
