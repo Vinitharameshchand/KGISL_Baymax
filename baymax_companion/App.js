@@ -37,7 +37,13 @@ const Stack = createNativeStackNavigator();
 
 export default function App() {
     useEffect(() => {
-        requestPermissionsOptions();
+        const initServices = async () => {
+            await requestPermissionsOptions();
+            const { setupWaterCategory, scheduleWaterReminders } = require('./src/services/waterService');
+            await setupWaterCategory();
+            await scheduleWaterReminders();
+        };
+        initServices();
 
         // When a notification arrives while app is OPEN → play Baymax voice
         const foregroundSubscription = Notifications.addNotificationReceivedListener(notification => {
@@ -79,6 +85,12 @@ export default function App() {
                     // Default tap behavior
                     speak(`Hello. I am Baymax. You opened the reminder for ${medName}. Have you taken your dose?`);
                 }
+            }
+
+            if (actionIdentifier === 'DRANK_WATER') {
+                const { logWaterDrop } = require('./src/services/waterService');
+                await logWaterDrop();
+                speak("Excellent. Staying hydrated is vital for your health. I have logged that glass of water for you.");
             }
         });
 

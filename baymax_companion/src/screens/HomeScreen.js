@@ -1,8 +1,28 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { COLORS } from '../constants/colors';
+import { getWaterIntake, logWaterDrop } from '../services/waterService';
+import { useEffect, useState } from 'react';
+import * as Haptics from 'expo-haptics';
 
 const HomeScreen = ({ navigation }) => {
+    const [water, setWater] = useState({ count: 0 });
+
+    const loadWater = async () => {
+        const data = await getWaterIntake();
+        setWater(data);
+    };
+
+    useEffect(() => {
+        loadWater();
+    }, []);
+
+    const handleLogWater = async () => {
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+        const newData = await logWaterDrop();
+        if (newData) setWater(newData);
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -28,6 +48,19 @@ const HomeScreen = ({ navigation }) => {
                         </View>
                     </View>
                 </TouchableOpacity>
+
+                <View style={[styles.heroAction, { marginTop: 16, backgroundColor: '#E0F2FE', borderColor: '#BAE6FD' }]}>
+                    <View style={styles.heroContent}>
+                        <MaterialCommunityIcons name="water" size={32} color={COLORS.secondary} />
+                        <View style={{ flex: 1, marginLeft: 16 }}>
+                            <Text style={styles.heroTitle}>Hydration</Text>
+                            <Text style={styles.heroSubtitle}>{water.count} of 8 glasses today</Text>
+                        </View>
+                        <TouchableOpacity style={styles.waterAddBtn} onPress={handleLogWater}>
+                            <MaterialCommunityIcons name="plus" size={24} color={COLORS.white} />
+                        </TouchableOpacity>
+                    </View>
+                </View>
 
                 <View style={styles.sectionHeader}>
                     <Text style={styles.sectionTitle}>Daily Checklist</Text>
@@ -201,6 +234,14 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '700',
         color: COLORS.text,
+    },
+    waterAddBtn: {
+        backgroundColor: COLORS.secondary,
+        width: 44,
+        height: 44,
+        borderRadius: 14,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 });
 

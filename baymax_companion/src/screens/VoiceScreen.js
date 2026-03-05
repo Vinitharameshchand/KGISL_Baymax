@@ -54,6 +54,8 @@ const REMINDER_KEYWORDS = [
 const TAKEN_KEYWORDS = ['took', 'taken', 'had', 'finished', 'completed', 'done with'];
 const SNOOZE_KEYWORDS = ['snooze', 'remind me later', 'remind me again', '10 minutes'];
 const SKIP_KEYWORDS = ['skip', 'skipping', 'not taking', 'won\'t take'];
+const WATER_DRANK_KEYWORDS = ['drank water', 'drank a glass', 'had water', 'finished my water'];
+const EMERGENCY_CALL_KEYWORDS = ['call my son', 'call my daughter', 'call emergency', 'call my family', 'call help'];
 
 // ── Component ────────────────────────────────────────────────────────────────
 const VoiceScreen = ({ navigation }) => {
@@ -155,6 +157,22 @@ const VoiceScreen = ({ navigation }) => {
             navigation.navigate('Emergency');
             setPhase('idle');
             return;
+        }
+
+        // 4a-2. Emergency Call intent
+        if (EMERGENCY_CALL_KEYWORDS.some(kw => lower.includes(kw))) {
+            speak('I am calling your emergency contact right now. Please stay calm.');
+            setTimeout(() => {
+                navigation.navigate('Emergency');
+            }, 2000);
+            return;
+        }
+
+        // 4a-3. Water intake intent
+        if (WATER_DRANK_KEYWORDS.some(kw => lower.includes(kw))) {
+            const { logWaterDrop } = require('../services/waterService');
+            await logWaterDrop();
+            return respondWith("Excellent. Staying hydrated is vital for your health. I have logged that glass of water for you.");
         }
 
         // Store mood sentiment

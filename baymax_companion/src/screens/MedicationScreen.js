@@ -13,6 +13,7 @@ const MedicationScreen = () => {
     const [name, setName] = useState('');
     const [dosage, setDosage] = useState('');
     const [time, setTime] = useState('');
+    const [stock, setStock] = useState('30'); // Default 30 pills
 
     const loadMeds = async () => {
         const list = await getMedications();
@@ -44,6 +45,7 @@ const MedicationScreen = () => {
             time,
             takenToday: false,
             streakCount: 0,
+            stockCount: parseInt(stock, 10) || 30,
         };
 
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -51,6 +53,7 @@ const MedicationScreen = () => {
         setName('');
         setDosage('');
         setTime('');
+        setStock('30');
         loadMeds();
     };
 
@@ -98,6 +101,14 @@ const MedicationScreen = () => {
                     placeholderTextColor={COLORS.textSecondary}
                     value={dosage}
                     onChangeText={setDosage}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Initial Stock (e.g. 30)"
+                    placeholderTextColor={COLORS.textSecondary}
+                    keyboardType="numeric"
+                    value={stock}
+                    onChangeText={setStock}
                 />
                 <View style={styles.row}>
                     <TextInput

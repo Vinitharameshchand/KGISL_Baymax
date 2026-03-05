@@ -227,6 +227,20 @@ export const setupNotificationCategories = async () => {
     console.log('[NotificationService] Notification category "medication_reminder" set up.');
 };
 
+// ── Refill Alert ────────────────────────────────────────────────────────────
+export const triggerRefillAlert = async (medication) => {
+    await Notifications.scheduleNotificationAsync({
+        content: {
+            title: '📦 Low Stock Alert!',
+            body: `Hello, I am Baymax. You only have 3 doses left of ${medication.name}. Please refill your prescription soon.`,
+            data: { type: 'refill_alert', medName: medication.name },
+            sound: true,
+            color: '#F59E0B',
+        },
+        trigger: null,
+    });
+};
+
 export const requestPermissionsOptions = async () => {
     await setupNotificationCategories();
 

@@ -91,18 +91,38 @@ export const snoozeMedication = async (medicationId) => {
 export const logDoseTaken = async (id) => {
     try {
         const meds = await getMedications();
+        let needsRefillAlert = false;
+        let alertMed = null;
+
         const updated = meds.map(med => {
             if (med.id === id) {
                 logAdherence(id, 'taken');
+
+                const newStock = Math.max(0, (med.stockCount || 0) - 1);
+
+                // If stock hits 3, we alert the user
+                if (newStock === 3) {
+                    needsRefillAlert = true;
+                    alertMed = med;
+                }
+
                 return {
                     ...med,
                     takenToday: true,
-                    streakCount: (med.streakCount || 0) + 1
+                    streakCount: (med.streakCount || 0) + 1,
+                    stockCount: newStock
                 };
             }
             return med;
         });
+
         await AsyncStorage.setItem(MEDICATION_STORAGE_KEY, JSON.stringify(updated));
+
+        if (needsRefillAlert && alertMed) {
+            const { triggerRefillAlert } = require('./notificationService');
+            await triggerRefillAlert(alertMed);
+        }
+
         return true;
     } catch (err) {
         console.error('Error logging dose', err);

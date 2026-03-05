@@ -11,7 +11,7 @@ const ReminderCard = ({ medication, onTake, onDelete, onSnooze }) => {
                         {medication.name}
                     </Text>
                     <Text style={styles.details}>
-                        {medication.dosage} • {medication.time}
+                        {medication.dosage} • {medication.time} • {medication.stockCount || 0} left
                     </Text>
                 </View>
 
