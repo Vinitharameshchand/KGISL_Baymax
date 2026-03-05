@@ -1,0 +1,3 @@
+To https://github.com/23bcs050-byte/baymax-companion.git
+ ! [remote rejected] BAYMAX -> BAYMAX (permission denied)
+error: failed to push some refs to 'https://github.com/23bcs050-byte/baymax-companion.git'
