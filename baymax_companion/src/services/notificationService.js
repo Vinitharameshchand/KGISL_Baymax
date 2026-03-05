@@ -20,8 +20,10 @@ export const triggerNotificationNow = async (medication) => {
         content: {
             title: '💊 Time for your medication',
             body: `Hello, I am Baymax. It is time for your dose (${medication.dosage || '1 dose'}) of ${medication.name}.`,
-            data: { medicationId: medication.id, medicationName: medication.name },
+            data: { medicationId: medication.id, medicationName: medication.name, dosage: medication.dosage },
             sound: true,
+            // ✅ categoryIdentifier for interactive actions
+            categoryIdentifier: 'medication_reminder',
             // channelId in CONTENT is valid for Android channel routing
             channelId: 'default',
         },
@@ -118,8 +120,15 @@ export const scheduleNotification = async (medication) => {
         content: {
             title: `💊 Reminder — ${medication.name}`,
             body: `Hello, I am Baymax. It is ${displayTime}. Time for your ${medication.dosage || '1 dose'} of ${medication.name}. Please take it now.`,
-            data: { medicationId: medication.id, medicationName: medication.name },
+            data: {
+                medicationId: medication.id,
+                medicationName: medication.name,
+                dosage: medication.dosage,
+                snoozeCount: 0 // New reminder starts at 0 snoozes
+            },
             sound: true,
+            // ✅ categoryIdentifier for interactive actions
+            categoryIdentifier: 'medication_reminder',
             // ✅ channelId is ONLY in content — correct placement for Android channel routing
             channelId: 'default',
         },
@@ -136,28 +145,91 @@ export const scheduleNotification = async (medication) => {
     console.log(`[NotificationService] 📅 Notification queued (ID: ${notificationId}). Will fire in ${Math.round(delaySeconds / 60)} minutes.`);
 };
 
-// ── Snooze notification (10 min from now, IST-accurate) ──────────────────────
+// ── Snooze notification (5 min from now, IST-accurate) ───────────────────────
 export const scheduleSnoozeNotification = async (medication) => {
     const { hour, minute } = await getCurrentISTTime();
 
-    const totalMinutes = hour * 60 + minute + 10;
+    // Increment snooze count
+    const currentSnoozeCount = (medication.snoozeCount || 0) + 1;
+
+    // If snoozed 2 times already (next one is the 3rd reminder), notify emergency contact
+    if (currentSnoozeCount >= 2) {
+        console.log(`[NotificationService] 🚨 Second snooze detected. Notifying emergency contact for ${medication.name}.`);
+        await notifyEmergencyContact(medication);
+    }
+
+    const totalMinutes = hour * 60 + minute + 5;
     const snoozeHour = Math.floor(totalMinutes / 60) % 24;
     const snoozeMinute = totalMinutes % 60;
 
     const pad = n => n.toString().padStart(2, '0');
     const snoozeTimeStr = `${pad(snoozeHour)}:${pad(snoozeMinute)}`;
 
-    console.log(`[NotificationService] 😴 Snooze scheduled for ${snoozeTimeStr} IST`);
+    console.log(`[NotificationService] 😴 Snooze #${currentSnoozeCount} scheduled for ${snoozeTimeStr} IST`);
 
-    await scheduleNotification({
-        ...medication,
-        time: snoozeTimeStr,
-        context: 'snooze',
+    await Notifications.scheduleNotificationAsync({
+        content: {
+            title: `💊 Final Warning — ${medication.name}`,
+            body: `Hello, I am Baymax. You have snoozed this twice. Please take your ${medication.dosage || 'dose'} of ${medication.name} immediately.`,
+            data: {
+                medicationId: medication.id,
+                medicationName: medication.name,
+                dosage: medication.dosage,
+                snoozeCount: currentSnoozeCount
+            },
+            sound: true,
+            categoryIdentifier: 'medication_reminder',
+            channelId: 'default',
+        },
+        trigger: {
+            type: 'timeInterval',
+            seconds: 300,
+            repeats: false,
+            channelId: 'default',
+        },
     });
 };
 
-// ── Permissions & channel setup ───────────────────────────────────────────────
+// ── Notify Emergency Contact ────────────────────────────────────────────────
+export const notifyEmergencyContact = async (medication) => {
+    // In a real app, this would send an SMS or Push to a stored contact.
+    // For now, we simulate with a special critical notification.
+    await Notifications.scheduleNotificationAsync({
+        content: {
+            title: '🚨 Emergency Alert (Simulation)',
+            body: `ALERT: The user has skipped their ${medication.name} dose twice. Please check on them.`,
+            data: { type: 'emergency_contact_alert', medName: medication.name },
+            sound: true,
+            color: '#E11D48',
+        },
+        trigger: null, // Fire immediately
+    });
+};
+
+// ── Define Notification Categories (Actions) ───────────────────────────────
+export const setupNotificationCategories = async () => {
+    await Notifications.setNotificationCategoryAsync('medication_reminder', [
+        {
+            identifier: 'TAKE_NOW',
+            buttonTitle: '✅ Yes, I\'ll take now',
+            options: {
+                opensAppToForeground: true,
+            },
+        },
+        {
+            identifier: 'SNOOZE',
+            buttonTitle: '⏰ After 5 mins',
+            options: {
+                opensAppToForeground: false, // Snooze can happen in background
+            },
+        },
+    ]);
+    console.log('[NotificationService] Notification category "medication_reminder" set up.');
+};
+
 export const requestPermissionsOptions = async () => {
+    await setupNotificationCategories();
+
     if (Platform.OS === 'android') {
         await Notifications.setNotificationChannelAsync('default', {
             name: 'Medication Reminders',

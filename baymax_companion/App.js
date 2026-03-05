@@ -52,14 +52,33 @@ export default function App() {
             }
         });
 
-        // When user TAPS the notification from the tray
-        const responseSubscription = Notifications.addNotificationResponseReceivedListener(response => {
-            const data = response.notification.request.content.data;
-            const body = response.notification.request.content.body || '';
+        // When user TAPS the notification from the tray or uses an ACTION
+        const responseSubscription = Notifications.addNotificationResponseReceivedListener(async response => {
+            const { actionIdentifier, notification } = response;
+            const data = notification.request.content.data;
+            const body = notification.request.content.body || '';
+
             if (data?.medicationId) {
-                const nameMatch = body.match(/of\s+([^.]+)\./i);
-                const medName = nameMatch ? nameMatch[1].trim() : 'your medicine';
-                speak(`Hello. I am Baymax. You opened the reminder for ${medName}. Have you taken your dose?`);
+                const medName = data.medicationName || 'your medicine';
+
+                if (actionIdentifier === 'TAKE_NOW') {
+                    const { logDoseTaken } = require('./src/services/medicationService');
+                    speak(`Excellent choice! I am glad you are taking your ${medName} now. I have logged this for you.`);
+                    await logDoseTaken(data.medicationId);
+                } else if (actionIdentifier === 'SNOOZE') {
+                    // Import Snooze if not already available (it should be in notificationService)
+                    const { scheduleSnoozeNotification } = require('./src/services/notificationService');
+                    speak(`Understood. I will remind you again in 5 minutes. Please don't forget.`);
+                    await scheduleSnoozeNotification({
+                        id: data.medicationId,
+                        name: data.medicationName,
+                        dosage: data.dosage,
+                        snoozeCount: data.snoozeCount || 0
+                    });
+                } else {
+                    // Default tap behavior
+                    speak(`Hello. I am Baymax. You opened the reminder for ${medName}. Have you taken your dose?`);
+                }
             }
         });
 
