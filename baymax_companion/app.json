@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "baymax-companion",
-    "slug": "baymax-companion",
+    "name": "Neuvix",
+    "slug": "neuvix",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./images/icon.png",
+    "icon": "./images/logoicon.png",
     "scheme": "baymaxcompanion",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,10 +14,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./images/android-icon-foreground.png",
-        "backgroundImage": "./images/android-icon-background.png",
-        "monochromeImage": "./images/android-icon-monochrome.png"
+        "foregroundImage": "./images/logoicon.png",
+        "backgroundColor": "#FFFFFF"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
@@ -28,13 +26,13 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./images/favicon.png"
+      "favicon": "./images/logoicon.png"
     },
     "plugins": [
       [
         "expo-splash-screen",
         {
-          "image": "./images/splash-icon.png",
+          "image": "./images/logoicon.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff",

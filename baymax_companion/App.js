@@ -1,3 +1,4 @@
+import { registerRootComponent } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import * as Notifications from 'expo-notifications';
@@ -28,11 +29,18 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 LogBox.ignoreLogs([
     // Remote push notifications removed from Expo Go in SDK 53
     'expo-notifications: Android Push notifications',
+    'ERROR  expo-notifications:',
+    'expo-notifications:',
     // General Expo Go notification limitation warning
     '`expo-notifications` functionality is not fully supported in Expo Go',
+    'expo-notifications` functionality',
     // Deprecated shouldShowAlert replaced by shouldShowBanner + shouldShowList
     'shouldShowAlert is deprecated',
     '[expo-notifications]',
+    'Use a development build instead of Expo Go',
+    'development build instead',
+    'functionality provided by expo-notifications',
+    'removed from Expo Go',
 ]);
 
 const Stack = createNativeStackNavigator();
@@ -196,3 +204,5 @@ export default function App() {
         </NavigationContainer>
     );
 }
+
+registerRootComponent(App);

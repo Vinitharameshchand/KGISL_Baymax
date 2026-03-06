@@ -1,18 +1,32 @@
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
+import Constants, { ExecutionEnvironment } from 'expo-constants';
 import { getCurrentISTTime, msUntilScheduledTime } from './timeService';
 
 // ── Foreground notification handler ─────────────────────────────────────────
 // Controls whether a notification should show while the app is open.
-Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-        // SDK 53+: shouldShowBanner = heads-up pop-over, shouldShowList = notification tray
-        shouldShowBanner: true,
-        shouldShowList: true,
-        shouldPlaySound: true,
-        shouldSetBadge: false,
-    }),
-});
+if (Constants.executionEnvironment !== ExecutionEnvironment.StoreClient) {
+    Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+            // SDK 53+: shouldShowBanner = heads-up pop-over, shouldShowList = notification tray
+            shouldShowBanner: true,
+            shouldShowList: true,
+            shouldPlaySound: true,
+            shouldSetBadge: false,
+        }),
+    });
+} else {
+    // Expo Go: use the SDK 53+ fields (shouldShowBanner/shouldShowList)
+    // to avoid the shouldShowAlert deprecation warning.
+    Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+            shouldShowBanner: true,
+            shouldShowList: true,
+            shouldPlaySound: true,
+            shouldSetBadge: false,
+        }),
+    });
+}
 
 // ── Immediate notification (test / manual trigger) ───────────────────────────
 export const triggerNotificationNow = async (medication) => {
@@ -242,8 +256,16 @@ export const triggerRefillAlert = async (medication) => {
 };
 
 export const requestPermissionsOptions = async () => {
-    await setupNotificationCategories();
+    const isExpoGo = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
 
+    if (isExpoGo) {
+        console.log('[NotificationService] ℹ️ Running in Expo Go. Categories skipped (not supported).');
+    } else {
+        await setupNotificationCategories();
+    }
+
+    // ✅ ALWAYS create the Android channel - even in Expo Go.
+    // Without a channel, Android silently drops ALL local notifications.
     if (Platform.OS === 'android') {
         await Notifications.setNotificationChannelAsync('default', {
             name: 'Medication Reminders',

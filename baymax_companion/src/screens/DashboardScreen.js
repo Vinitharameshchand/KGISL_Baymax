@@ -12,6 +12,7 @@ const DashboardScreen = () => {
     const [missed, setMissed] = useState(0);
     const [healthScore, setHealthScore] = useState(0);
     const [pendingMeds, setPendingMeds] = useState([]);
+    const [moodText, setMoodText] = useState('Neutral');
 
     useEffect(() => {
         loadStats();
@@ -41,6 +42,14 @@ const DashboardScreen = () => {
         const moodScore = moods.length > 0
             ? moods.reduce((acc, curr) => acc + curr.score, 0) / moods.length
             : 70; // fallback to neutral-high if no data yet
+
+        let dynamicMood = 'Neutral';
+        if (moodScore >= 80) dynamicMood = 'Very Positive';
+        else if (moodScore >= 60) dynamicMood = 'Generally Positive';
+        else if (moodScore >= 40) dynamicMood = 'Neutral';
+        else dynamicMood = 'Needs Attention';
+
+        setMoodText(dynamicMood);
 
         const score = calculateHealthScore(percent, moodScore);
         setHealthScore(score);
@@ -98,7 +107,7 @@ const DashboardScreen = () => {
                     <MaterialCommunityIcons name="face-recognition" size={28} color={COLORS.secondary} />
                     <View style={{ marginLeft: 16 }}>
                         <Text style={styles.moodLabel}>Mood Trend</Text>
-                        <Text style={styles.moodValue}>Generally Positive</Text>
+                        <Text style={styles.moodValue}>{moodText}</Text>
                     </View>
                 </View>
             </View>
