@@ -8,6 +8,7 @@ import { COLORS } from './src/constants/colors';
 import { requestPermissionsOptions } from './src/services/notificationService';
 import { speak } from './src/services/voiceService';
 
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import BreathingScreen from './src/screens/BreathingScreen';
 import DashboardScreen from './src/screens/DashboardScreen';
 import EmergencyScreen from './src/screens/EmergencyScreen';
@@ -15,6 +16,7 @@ import HomeScreen from './src/screens/HomeScreen';
 import MedicationScreen from './src/screens/MedicationScreen';
 import ScanScreen from './src/screens/ScanScreen';
 import VoiceScreen from './src/screens/VoiceScreen';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Suppress Expo Go notification warnings at MODULE LEVEL.
@@ -34,6 +36,44 @@ LogBox.ignoreLogs([
 ]);
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
+function MainTabs() {
+    return (
+        <Tab.Navigator
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                    let iconName;
+                    if (route.name === 'HomeTab') iconName = focused ? 'home' : 'home-outline';
+                    else if (route.name === 'MedsTab') iconName = focused ? 'pill' : 'pill';
+                    else if (route.name === 'VoiceTab') iconName = focused ? 'microphone' : 'microphone-outline';
+                    else if (route.name === 'TrendsTab') iconName = focused ? 'chart-line' : 'chart-line';
+
+                    return <MaterialCommunityIcons name={iconName} size={size} color={color} />;
+                },
+                tabBarActiveTintColor: COLORS.primary,
+                tabBarInactiveTintColor: COLORS.textSecondary,
+                tabBarStyle: {
+                    backgroundColor: COLORS.white,
+                    borderTopWidth: 1,
+                    borderTopColor: COLORS.border,
+                    height: 88,
+                    paddingBottom: 30,
+                    paddingTop: 10,
+                },
+                tabBarLabelStyle: {
+                    fontSize: 12,
+                    fontWeight: '700',
+                },
+                headerShown: false,
+            })}
+        >
+            <Tab.Screen name="HomeTab" component={HomeScreen} options={{ title: 'Home' }} />
+            <Tab.Screen name="MedsTab" component={MedicationScreen} options={{ title: 'Schedule' }} />
+            <Tab.Screen name="TrendsTab" component={DashboardScreen} options={{ title: 'Trends' }} />
+        </Tab.Navigator>
+    );
+}
 
 export default function App() {
     useEffect(() => {
@@ -104,7 +144,7 @@ export default function App() {
         <NavigationContainer>
             <StatusBar style="dark" />
             <Stack.Navigator
-                initialRouteName="Home"
+                initialRouteName="Main"
                 screenOptions={{
                     headerStyle: { backgroundColor: COLORS.background },
                     headerShadowVisible: false,
@@ -115,8 +155,8 @@ export default function App() {
                 }}
             >
                 <Stack.Screen
-                    name="Home"
-                    component={HomeScreen}
+                    name="Main"
+                    component={MainTabs}
                     options={{ headerShown: false }}
                 />
                 <Stack.Screen
@@ -124,21 +164,9 @@ export default function App() {
                     component={VoiceScreen}
                     options={{
                         headerShown: false,
-                        animation: 'fade',
+                        animation: 'fade_from_bottom',
                         presentation: 'transparentModal'
                     }}
-                />
-                <Stack.Screen
-                    name="Medication"
-                    component={MedicationScreen}
-                    options={{
-                        headerShown: false,
-                    }}
-                />
-                <Stack.Screen
-                    name="Dashboard"
-                    component={DashboardScreen}
-                    options={{ headerShown: false }}
                 />
                 <Stack.Screen
                     name="Emergency"

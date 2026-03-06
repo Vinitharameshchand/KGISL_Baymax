@@ -157,8 +157,8 @@ const styles = StyleSheet.create({
     headerRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        marginTop: 40,
+        alignItems: 'flex-end',
+        marginTop: 68,
         marginBottom: 24,
     },
     headerTitle: {
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginLeft: 12,
-        marginBottom: 12,
+        marginBottom: 0,
         shadowColor: COLORS.primary,
         shadowOpacity: 0.2,
         shadowRadius: 10,

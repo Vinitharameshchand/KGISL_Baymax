@@ -26,13 +26,21 @@ const HomeScreen = ({ navigation }) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <View style={styles.baymaxLogo}>
-                    <View style={styles.eye} />
-                    <View style={styles.connector} />
-                    <View style={styles.eye} />
+                <View style={styles.headerTop}>
+                    <View style={styles.baymaxLogo}>
+                        <View style={styles.eye} />
+                        <View style={styles.connector} />
+                        <View style={styles.eye} />
+                    </View>
+                    <TouchableOpacity
+                        style={styles.voiceSmallBtn}
+                        onPress={() => navigation.navigate('Voice')}
+                    >
+                        <MaterialCommunityIcons name="microphone" size={24} color={COLORS.primary} />
+                    </TouchableOpacity>
                 </View>
                 <Text style={styles.welcomeText}>Hello.</Text>
-                <Text style={styles.statusPill}>Health Scanner Active</Text>
+                <Text style={styles.subtitleText}>I am Baymax, your companion.</Text>
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
@@ -64,38 +72,30 @@ const HomeScreen = ({ navigation }) => {
 
                 <View style={styles.sectionHeader}>
                     <Text style={styles.sectionTitle}>Daily Checklist</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('Medication')}>
+                    <TouchableOpacity onPress={() => navigation.navigate('MedsTab')}>
                         <Text style={styles.viewAll}>View All</Text>
                     </TouchableOpacity>
                 </View>
 
                 <View style={styles.grid}>
-                    <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('Medication')}>
-                        <View style={[styles.iconCircle, { backgroundColor: '#FEE2E2' }]}>
-                            <MaterialCommunityIcons name="pill" size={24} color={COLORS.primary} />
-                        </View>
-                        <Text style={styles.tileText}>Meds</Text>
+                    <TouchableOpacity style={[styles.tile, { backgroundColor: '#FEE2E2' }]} onPress={() => navigation.navigate('MedsTab')}>
+                        <MaterialCommunityIcons name="pill" size={28} color={COLORS.primary} />
+                        <Text style={[styles.tileText, { color: COLORS.primary }]}>Meds</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('Dashboard')}>
-                        <View style={[styles.iconCircle, { backgroundColor: '#E0F2FE' }]}>
-                            <MaterialCommunityIcons name="chart-line" size={24} color={COLORS.secondary} />
-                        </View>
-                        <Text style={styles.tileText}>Trends</Text>
+                    <TouchableOpacity style={[styles.tile, { backgroundColor: '#E0F2FE' }]} onPress={() => navigation.navigate('TrendsTab')}>
+                        <MaterialCommunityIcons name="chart-line" size={28} color={COLORS.secondary} />
+                        <Text style={[styles.tileText, { color: COLORS.secondary }]}>Trends</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('Breathing')}>
-                        <View style={[styles.iconCircle, { backgroundColor: '#F0FDF4' }]}>
-                            <MaterialCommunityIcons name="leaf-circle-outline" size={24} color={COLORS.success} />
-                        </View>
-                        <Text style={styles.tileText}>Wellness</Text>
+                    <TouchableOpacity style={[styles.tile, { backgroundColor: '#F0FDF4' }]} onPress={() => navigation.navigate('Breathing')}>
+                        <MaterialCommunityIcons name="leaf-circle-outline" size={28} color={COLORS.success} />
+                        <Text style={[styles.tileText, { color: COLORS.success }]}>Relax</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.tile} onPress={() => navigation.navigate('Scan')}>
-                        <View style={[styles.iconCircle, { backgroundColor: '#F5F3FF' }]}>
-                            <MaterialCommunityIcons name="heart-flash" size={24} color="#8B5CF6" />
-                        </View>
-                        <Text style={styles.tileText}>Vitals</Text>
+                    <TouchableOpacity style={[styles.tile, { backgroundColor: '#F5F3FF' }]} onPress={() => navigation.navigate('Scan')}>
+                        <MaterialCommunityIcons name="heart-pulse" size={28} color="#8B5CF6" />
+                        <Text style={[styles.tileText, { color: '#8B5CF6' }]}>Vitals</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -127,7 +127,6 @@ const styles = StyleSheet.create({
     baymaxLogo: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 16,
     },
     eye: {
         width: 12,
@@ -207,41 +206,53 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         color: COLORS.secondary,
     },
+    headerTop: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 8,
+    },
+    voiceSmallBtn: {
+        width: 48,
+        height: 48,
+        borderRadius: 24,
+        backgroundColor: COLORS.white,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: COLORS.border,
+        shadowColor: '#000',
+        shadowOpacity: 0.05,
+        shadowRadius: 10,
+        elevation: 2,
+    },
+    subtitleText: {
+        fontSize: 16,
+        color: COLORS.textSecondary,
+        fontWeight: '600',
+        marginTop: 4,
+    },
     grid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
+        marginTop: 8,
     },
     tile: {
         width: '47%',
-        backgroundColor: COLORS.white,
-        padding: 20,
-        borderRadius: 24,
+        paddingVertical: 24,
+        borderRadius: 32,
         alignItems: 'center',
         marginBottom: 16,
         borderWidth: 1,
-        borderColor: COLORS.border,
-    },
-    iconCircle: {
-        width: 52,
-        height: 52,
-        borderRadius: 26,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 12,
+        borderColor: 'rgba(0,0,0,0.02)',
     },
     tileText: {
-        fontSize: 14,
-        fontWeight: '700',
-        color: COLORS.text,
-    },
-    waterAddBtn: {
-        backgroundColor: COLORS.secondary,
-        width: 44,
-        height: 44,
-        borderRadius: 14,
-        justifyContent: 'center',
-        alignItems: 'center',
+        fontSize: 15,
+        fontWeight: '800',
+        marginTop: 12,
+        textTransform: 'uppercase',
+        letterSpacing: 0.5,
     }
 });
 
