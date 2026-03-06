@@ -1,9 +1,29 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Alert, Linking, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Linking, StyleSheet, Text, TouchableOpacity, View, TextInput } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useState } from 'react';
 import { COLORS } from '../constants/colors';
 import { logEmergencyIncident } from '../services/emergencyService';
 
 const EmergencyScreen = ({ navigation }) => {
+    const [contactNumber, setContactNumber] = useState('');
+    const [isEditing, setIsEditing] = useState(false);
+
+    useEffect(() => {
+        const loadContact = async () => {
+            const savedContact = await AsyncStorage.getItem('@emergency_contact');
+            if (savedContact) setContactNumber(savedContact);
+        };
+        loadContact();
+    }, []);
+
+    const saveContact = async () => {
+        if (!contactNumber.trim()) return;
+        await AsyncStorage.setItem('@emergency_contact', contactNumber);
+        setIsEditing(false);
+        Alert.alert("Saved", "Emergency contact updated successfully.");
+    };
+
     const handleAmbulance = async () => {
         await logEmergencyIncident("Called Ambulance (911)");
         Alert.alert(
@@ -21,15 +41,20 @@ const EmergencyScreen = ({ navigation }) => {
     };
 
     const handleContact = async () => {
-        await logEmergencyIncident("Called Emergency Contact");
+        if (!contactNumber) {
+            Alert.alert("No Contact", "Please configure an emergency contact first.");
+            setIsEditing(true);
+            return;
+        }
+        await logEmergencyIncident(`Called Emergency Contact (${contactNumber})`);
         Alert.alert(
             "Confirm Call",
-            "Call your emergency contact?",
+            `Call your emergency contact (${contactNumber})?`,
             [
                 { text: "Cancel", style: "cancel" },
                 {
                     text: "Call",
-                    onPress: () => Linking.openURL('tel:1234567890')
+                    onPress: () => Linking.openURL(`tel:${contactNumber}`)
                 }
             ]
         );
@@ -69,16 +94,40 @@ const EmergencyScreen = ({ navigation }) => {
                     <MaterialCommunityIcons name="chevron-right" size={24} color="rgba(255,255,255,0.5)" />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.secondaryBtn} onPress={handleContact}>
-                    <View style={[styles.btnIcon, { backgroundColor: 'rgba(255,159,10,0.2)' }]}>
-                        <MaterialCommunityIcons name="account-alert" size={28} color="#FF9F0A" />
+                <View style={styles.contactRow}>
+                    <TouchableOpacity style={[styles.secondaryBtn, { flex: 1, marginBottom: 0 }]} onPress={handleContact}>
+                        <View style={[styles.btnIcon, { backgroundColor: 'rgba(255,159,10,0.2)' }]}>
+                            <MaterialCommunityIcons name="account-alert" size={28} color="#FF9F0A" />
+                        </View>
+                        <View style={styles.btnContent}>
+                            <Text style={[styles.btnLabel, { color: COLORS.text }]}>Emergency Contact</Text>
+                            <Text style={styles.btnSubLabel}>{contactNumber ? contactNumber : "Not configured"}</Text>
+                        </View>
+                        <MaterialCommunityIcons name="chevron-right" size={24} color={COLORS.border} />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.editBtn}
+                        onPress={() => setIsEditing(!isEditing)}
+                    >
+                        <MaterialCommunityIcons name="pencil" size={24} color={COLORS.textSecondary} />
+                    </TouchableOpacity>
+                </View>
+
+                {isEditing && (
+                    <View style={styles.editContainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Enter contact number"
+                            placeholderTextColor={COLORS.textSecondary}
+                            value={contactNumber}
+                            onChangeText={setContactNumber}
+                            keyboardType="phone-pad"
+                        />
+                        <TouchableOpacity style={styles.saveBtn} onPress={saveContact}>
+                            <Text style={styles.saveBtnText}>Save</Text>
+                        </TouchableOpacity>
                     </View>
-                    <View style={styles.btnContent}>
-                        <Text style={[styles.btnLabel, { color: COLORS.text }]}>Emergency Contact</Text>
-                        <Text style={styles.btnSubLabel}>Primary Guardian / Friend</Text>
-                    </View>
-                    <MaterialCommunityIcons name="chevron-right" size={24} color={COLORS.border} />
-                </TouchableOpacity>
+                )}
             </View>
 
             <TouchableOpacity style={styles.outlineBtn} onPress={() => navigation.goBack()}>
@@ -216,6 +265,43 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: '700',
         textDecorationLine: 'underline',
+    },
+    contactRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    editBtn: {
+        width: 50,
+        height: 70,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginLeft: 10,
+    },
+    editContainer: {
+        flexDirection: 'row',
+        marginBottom: 20,
+    },
+    input: {
+        flex: 1,
+        borderWidth: 1,
+        borderColor: COLORS.border,
+        borderRadius: 12,
+        padding: 16,
+        marginRight: 10,
+        backgroundColor: COLORS.white,
+        color: COLORS.text,
+        fontSize: 16,
+    },
+    saveBtn: {
+        backgroundColor: COLORS.secondary,
+        justifyContent: 'center',
+        paddingHorizontal: 20,
+        borderRadius: 12,
+    },
+    saveBtnText: {
+        color: COLORS.white,
+        fontWeight: '700',
     }
 });
 

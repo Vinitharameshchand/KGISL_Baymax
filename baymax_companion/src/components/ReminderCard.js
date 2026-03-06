@@ -24,14 +24,14 @@ const ReminderCard = ({ medication, onTake, onDelete, onSnooze }) => {
                     <View style={styles.actions}>
                         <TouchableOpacity
                             style={styles.actionBtn}
-                            onPress={() => onSnooze(medication)}
+                            onPress={() => onSnooze(medication.id)}
                         >
                             <MaterialCommunityIcons name="clock-outline" size={22} color={COLORS.textSecondary} />
                         </TouchableOpacity>
 
                         <TouchableOpacity
                             style={[styles.actionBtn, styles.primaryAction]}
-                            onPress={() => onTake(medication)}
+                            onPress={() => onTake(medication.id)}
                         >
                             <MaterialCommunityIcons name="check" size={24} color={COLORS.white} />
                         </TouchableOpacity>
