@@ -259,9 +259,13 @@ export const requestPermissionsOptions = async () => {
     const isExpoGo = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
 
     if (isExpoGo) {
-        console.log('[NotificationService] ℹ️ Running in Expo Go. Categories skipped (not supported).');
-    } else {
+        console.log('[NotificationService] ℹ️ Running in Expo Go. Attempting to set up categories anyway.');
+    }
+
+    try {
         await setupNotificationCategories();
+    } catch (e) {
+        console.warn('[NotificationService] Failed to set up categories', e);
     }
 
     // ✅ ALWAYS create the Android channel - even in Expo Go.

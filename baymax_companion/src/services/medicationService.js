@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { scheduleNotification } from './notificationService';
+import { scheduleNotification, scheduleSnoozeNotification } from './notificationService';
 
 const MEDICATION_STORAGE_KEY = '@medications';
 
