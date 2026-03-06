@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "extra": {
+      "eas": {
+        "projectId": "7ee0b830-1a8e-4087-99b7-cac0ee2fffdd"
+      }
+    },
+    "android": {
+      "package": "com.vinitha101.kgisl_baymax"
+    }
+  }
+}
