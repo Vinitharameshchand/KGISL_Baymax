@@ -20,7 +20,7 @@ STRICTURES:
 - Keep responses short, gentle, and reassuring.`;
 
 
-export const getAIResponse = async (userMessage) => {
+export const getAIResponse = async (userMessage, contextPrompt = "") => {
     try {
         const { getFormattedISTTime } = require('./timeService');
         const currentTime = await getFormattedISTTime();
@@ -39,7 +39,7 @@ export const getAIResponse = async (userMessage) => {
                     messages: [
                         {
                             role: "system",
-                            content: `${SYSTEM_PROMPT}\n\nThe current time is ${currentTime} IST (Asia/Kolkata). 
+                            content: `${SYSTEM_PROMPT}\n\n${contextPrompt}\n\nThe current time is ${currentTime} IST (Asia/Kolkata). 
                             If the user says 'in X minutes/hours', calculate the absolute time based on this current time.
                             DO NOT trigger the reminder immediately unless the user specifically asks for 'now'.`
                         },

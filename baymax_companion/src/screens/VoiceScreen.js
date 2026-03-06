@@ -58,10 +58,13 @@ const WATER_DRANK_KEYWORDS = ['drank water', 'drank a glass', 'had water', 'fini
 const EMERGENCY_CALL_KEYWORDS = ['call my son', 'call my daughter', 'call emergency', 'call my family', 'call help'];
 
 // ── Component ────────────────────────────────────────────────────────────────
-const VoiceScreen = ({ navigation }) => {
+const VoiceScreen = ({ navigation, route }) => {
+    const isVitalsMode = route?.params?.mode === 'vitals_check';
     const [phase, setPhase] = useState('idle'); // idle | listening | processing | speaking
     const [transcript, setTranscript] = useState('');
-    const [aiResponse, setAiResponse] = useState('Hold the button below and speak to me.');
+    const [aiResponse, setAiResponse] = useState(
+        isVitalsMode ? "Tell me your pain level from 1 to 10." : "Hold the button below and speak to me."
+    );
     const [reminderConfirm, setReminderConfirm] = useState(null); // { name, time } after saving
 
     const recordingRef = useRef(null);
@@ -173,6 +176,31 @@ const VoiceScreen = ({ navigation }) => {
             const { logWaterDrop } = require('../services/waterService');
             await logWaterDrop();
             return respondWith("Excellent. Staying hydrated is vital for your health. I have logged that glass of water for you.");
+        }
+
+        // ── Vitals Mode Logic ──
+        if (isVitalsMode) {
+            // Attempt to extract a number for pain level
+            const match = text.match(/\b([0-9]|10)\b/);
+            const painLevel = match ? parseInt(match[1], 10) : null;
+
+            if (painLevel !== null) {
+                // Store vitals
+                try {
+                    const stored = await AsyncStorage.getItem('@vitals_pain');
+                    const painLogs = stored ? JSON.parse(stored) : [];
+                    const updated = [...painLogs, { score: painLevel, date: new Date().toISOString() }].slice(-10);
+                    await AsyncStorage.setItem('@vitals_pain', JSON.stringify(updated));
+                } catch (e) { console.warn("Could not save pain score:", e); }
+
+                // Get AI response but force it to discuss the pain log
+                const vitalsPrompt = `The user is doing a formal health vitals check, and just logged their physical pain/discomfort level as ${painLevel} out of 10. Acknowledge this pain score empathetically. If it's above 7, strongly suggest they might want to talk to a real doctor or contact emergency services. Keep response to 2 sentences max.`;
+                const aiReply = await getAIResponse(text, vitalsPrompt);
+                return respondWith(aiReply);
+            } else {
+                const aiReply = await getAIResponse(text, "The user was supposed to state a pain level out of 10 for their vitals check but didn't give a clear number. Politely ask them how much pain they're in right now from 1 to 10.");
+                return respondWith(aiReply);
+            }
         }
 
         // Store mood sentiment

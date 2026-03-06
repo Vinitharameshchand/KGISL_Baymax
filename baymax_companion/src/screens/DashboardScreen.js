@@ -13,6 +13,7 @@ const DashboardScreen = () => {
     const [healthScore, setHealthScore] = useState(0);
     const [pendingMeds, setPendingMeds] = useState([]);
     const [moodText, setMoodText] = useState('Neutral');
+    const [lastPain, setLastPain] = useState('Off check');
 
     useEffect(() => {
         loadStats();
@@ -24,6 +25,15 @@ const DashboardScreen = () => {
         const moods = moodsStr ? JSON.parse(moodsStr) : [];
         const logsStr = await AsyncStorage.getItem('@adherence_logs');
         const logs = logsStr ? JSON.parse(logsStr) : [];
+        const painStr = await AsyncStorage.getItem('@vitals_pain');
+        const painLogs = painStr ? JSON.parse(painStr) : [];
+
+        // Set last pain score
+        if (painLogs.length > 0) {
+            setLastPain(`${painLogs[painLogs.length - 1].score} / 10`);
+        } else {
+            setLastPain('No data');
+        }
 
         let takenToday = 0;
         meds.forEach(m => {
@@ -102,12 +112,23 @@ const DashboardScreen = () => {
             </View>
 
             <View style={styles.moodSection}>
-                <Text style={styles.sectionTitle}>Emotional Wellness</Text>
-                <View style={styles.moodCard}>
-                    <MaterialCommunityIcons name="face-recognition" size={28} color={COLORS.secondary} />
-                    <View style={{ marginLeft: 16 }}>
-                        <Text style={styles.moodLabel}>Mood Trend</Text>
-                        <Text style={styles.moodValue}>{moodText}</Text>
+                <Text style={styles.sectionTitle}>Wellbeing & Vitals</Text>
+
+                <View style={styles.row}>
+                    <View style={[styles.moodCard, { flex: 0.48 }]}>
+                        <MaterialCommunityIcons name="face-recognition" size={28} color={COLORS.secondary} />
+                        <View style={{ marginLeft: 12 }}>
+                            <Text style={styles.moodLabel}>Mood</Text>
+                            <Text style={styles.moodValue} numberOfLines={1}>{moodText}</Text>
+                        </View>
+                    </View>
+
+                    <View style={[styles.moodCard, { flex: 0.48 }]}>
+                        <MaterialCommunityIcons name="heart-pulse" size={28} color="#7C3AED" />
+                        <View style={{ marginLeft: 12 }}>
+                            <Text style={styles.moodLabel}>Pain Scale</Text>
+                            <Text style={styles.moodValue}>{lastPain}</Text>
+                        </View>
                     </View>
                 </View>
             </View>
@@ -269,22 +290,23 @@ const styles = StyleSheet.create({
     },
     moodCard: {
         backgroundColor: COLORS.white,
-        padding: 20,
-        borderRadius: 24,
+        padding: 16,
+        borderRadius: 20,
         flexDirection: 'row',
         alignItems: 'center',
         borderWidth: 1,
         borderColor: COLORS.border,
     },
     moodLabel: {
-        fontSize: 14,
+        fontSize: 13,
         color: COLORS.textSecondary,
         fontWeight: '600',
     },
     moodValue: {
-        fontSize: 18,
+        fontSize: 14,
         fontWeight: '700',
         color: COLORS.text,
+        marginTop: 2,
     },
     pendingItem: {
         backgroundColor: COLORS.white,

@@ -73,7 +73,7 @@ const ScanScreen = ({ navigation }) => {
             <TouchableOpacity
                 style={styles.voiceBtn}
                 onPress={() => {
-                    navigation.replace('Voice');
+                    navigation.replace('Voice', { mode: 'vitals_check' });
                     speak("I am listening. Tell me your pain level.");
                 }}
             >
