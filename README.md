@@ -177,4 +177,5 @@ npx expo start
 
 <p align="center">
   <i>“I cannot deactivate until you say you are satisfied with your care.”</i>
+  https://baymaxneuvix101.netlify.app/
 </p>
